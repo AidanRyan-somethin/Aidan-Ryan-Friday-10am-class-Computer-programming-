@@ -4,14 +4,35 @@ let b=255;
 
 function setup() {
   createCanvas(600, 600);
-  rectMode (Center);
+  rectMode (CENTER);
 }
 
-function draw() {
+function draw() 
+{
   background(r,g,b);
-  ellipse (200,200,200,200);
-  fill (0,0,0)
-
+ if (mouseX > width / 2)
+ {
+  fill(255,0,0);
+  ellipse(width/2, height/2, 100, 100);
+  print("TEST 1 is TRUE");
+ }
+ else if (mouseY > height / 2)
+ {
+  fill(0);
+  rect(width /2, height/2);
+ }
+ else if (mouseY > height /2)
+ {
+  fill(0);
+  rect(width/2, height/2, 100, 100);
+  print("TEST 2 is True");
+ }
+ else 
+ {
+  fill(255);
+  rect(width/2, height/2, 100, 100);
+  print("TEST1 and TEST 2 are Both FALSE")
+ }
 }
 
 function mousePressed () {
