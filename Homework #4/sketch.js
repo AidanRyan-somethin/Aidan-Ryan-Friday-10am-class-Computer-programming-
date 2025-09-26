@@ -1,9 +1,7 @@
 //Aidan ryan, Magic 8 ball, just ask a question then get your answer by clicking the magic 8 ball,  im trying to explore magic stuff
-//found this
 function randomNumberGenerator(min, max) 
 {
 return Math.floor(Math.random() * (max - min + 1)) +min;
-
 }
 
 const sayings = 
@@ -50,7 +48,7 @@ function draw()
 
  else 
   {
-  background(170, 170, 170);
+  background(200, 200, 200);
   }
 
   // Center location stuff
@@ -79,6 +77,10 @@ function draw()
  //right leg
  rect(centerX + 350, centerY + 300, 80, 200);
 
+ //curtains
+ //fill
+ //ellipse
+ //ellipse
 
   fill (255);
   text(selectedSaying, centerX, centerY);
