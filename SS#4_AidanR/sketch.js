@@ -1,7 +1,8 @@
 // Aidan Ryan, Magic 8 Ball
-// Theme: Magic and fun interactions
-// Instructions: Click the 8 ball to get a random answer, watch the Among Us character react
+// Theme: Magic and different interactions based on choosen saying
+// Instructions: Ask the 8 ball something and click the 8 ball to get a random answer
 
+//https://www.youtube.com/watch?v=Kh2uuHTxSjY found a video that explains random number generator but wasnt the same video i got it from
 function randomNumberGenerator(min, max) 
 {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -75,18 +76,16 @@ function drawAmongUs()
   {
     // always use red image
     currentAmongUsIndex = amongUsImages.length - 1; // red is last in array
-    yOffset = sin(frameCount * 0.1) * 20; // bounce up/down
   } 
-  else if (selectedSaying === "Pay $1.99 for 5 more answers") 
-{
-    scaleSize = 1.5; // grow
-}
 
-  push();
-  translate(centerX + xOffset, centerY + yOffset);
+
+  //https://www.youtube.com/watch?v=91mnGhC6Kh0 (where i found push and pop)
+  //https://p5js.org/reference/p5/translate/ (i wanted to make the image slide a bit and found this)
+  push(); // adds one element to the array and pushs that elemtent to the last position of the array (basically modifying the array)
+  translate(centerX + xOffset, centerY + yOffset); //moves the orgin point to a new position, tbh i dont fully understand it and got it from the video
   scale(scaleSize);
   image(amongUsImages[currentAmongUsIndex], 0, 0, 100, 150);
-  pop();
+  pop(); //returns the last element from teh array and then returns the last element basically modifying the array to reduce its length
 }
 
 function draw() {
