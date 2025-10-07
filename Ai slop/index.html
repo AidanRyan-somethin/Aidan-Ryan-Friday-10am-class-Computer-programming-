@@ -2,32 +2,197 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Turn-Based Game</title>
+  <title>Turn-Based Battle Game</title>
+  <style>
+    body {
+      background: linear-gradient(#282c34, #1a1a1a);
+      color: white;
+      font-family: 'Trebuchet MS', sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #ffcc00;
+    }
+
+    .battlefield {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-top: 40px;
+    }
+
+    .character {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .sprite {
+      width: 120px;
+      height: 120px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      transition: transform 0.2s;
+    }
+
+    .player .sprite {
+      background: dodgerblue;
+    }
+
+    .enemy .sprite {
+      background: crimson;
+    }
+
+    .health-bar {
+      width: 150px;
+      height: 20px;
+      background: #333;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .health {
+      height: 100%;
+      background: limegreen;
+      width: 100%;
+      transition: width 0.3s ease;
+    }
+
+    #actions {
+      margin-top: 30px;
+    }
+
+    button {
+      background: #ffcc00;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #ffaa00;
+    }
+
+    #log {
+      margin-top: 30px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px;
+      border-radius: 10px;
+      height: 120px;
+      overflow-y: auto;
+    }
+
+    .shake {
+      animation: shake 0.3s;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+  </style>
 </head>
 <body>
   <h1>⚔️ Turn-Based Battle Game</h1>
-  <div id="game"></div>
-  <button id="attackBtn">Attack</button>
-  <button id="healBtn">Heal</button>
+
+  <div class="battlefield">
+    <div class="character player">
+      <div class="sprite" id="playerSprite"></div>
+      <div class="health-bar"><div class="health" id="playerHealth"></div></div>
+      <div><strong>Hero</strong></div>
+    </div>
+
+    <div class="character enemy">
+      <div class="sprite" id="enemySprite"></div>
+      <div class="health-bar"><div class="health" id="enemyHealth"></div></div>
+      <div><strong>Goblin</strong></div>
+    </div>
+  </div>
+
+  <div id="actions">
+    <button id="attackBtn">Attack</button>
+    <button id="healBtn">Heal</button>
+  </div>
+
+  <div id="log"></div>
 
   <script>
-    // Game state
-    const player = {
-      name: "Hero",
-      health: 100,
-      maxHealth: 100,
-      attack: 15,
-      healPower: 10
-    };
-
-    const enemy = {
-      name: "Goblin",
-      health: 100,
-      attack: 12
-    };
-
+    const player = { name: "Hero", health: 100, maxHealth: 100, attack: 15, healPower: 10 };
+    const enemy = { name: "Goblin", health: 100, maxHealth: 100, attack: 12 };
     let gameOver = false;
 
-    const gameDiv = document.getElementById("game");
-    const attackBtn = document.getElementById("attackBtn");
-    const healBtn = document.getElementBy
+    const playerHealthEl = document.getElementById("playerHealth");
+    const enemyHealthEl = document.getElementById("enemyHealth");
+    const logEl = document.getElementById("log");
+    const playerSprite = document.getElementById("playerSprite");
+    const enemySprite = document.getElementById("enemySprite");
+
+    function log(message) {
+      const p = document.createElement("p");
+      p.textContent = message;
+      logEl.appendChild(p);
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    function updateHealthBars() {
+      playerHealthEl.style.width = (player.health / player.maxHealth * 100) + "%";
+      enemyHealthEl.style.width = (enemy.health / enemy.maxHealth * 100) + "%";
+    }
+
+    function enemyTurn() {
+      if (gameOver) return;
+      const damage = Math.floor(Math.random() * enemy.attack) + 5;
+      player.health = Math.max(0, player.health - damage);
+      playerSprite.classList.add("shake");
+      setTimeout(() => playerSprite.classList.remove("shake"), 300);
+      log(`💥 ${enemy.name} hits ${player.name} for ${damage} damage!`);
+      updateHealthBars();
+      checkGameOver();
+    }
+
+    function checkGameOver() {
+      if (enemy.health <= 0) {
+        log("🏆 You defeated the Goblin!");
+        gameOver = true;
+      } else if (player.health <= 0) {
+        log("💀 You were defeated...");
+        gameOver = true;
+      }
+    }
+
+    document.getElementById("attackBtn").addEventListener("click", () => {
+      if (gameOver) return;
+      const damage = Math.floor(Math.random() * player.attack) + 5;
+      enemy.health = Math.max(0, enemy.health - damage);
+      enemySprite.classList.add("shake");
+      setTimeout(() => enemySprite.classList.remove("shake"), 300);
+      log(`⚔️ ${player.name} hits ${enemy.name} for ${damage} damage!`);
+      updateHealthBars();
+      checkGameOver();
+      if (!gameOver) setTimeout(enemyTurn, 1000);
+    });
+
+    document.getElementById("healBtn").addEventListener("click", () => {
+      if (gameOver) return;
+      const healAmount = Math.min(player.maxHealth - player.health, player.healPower);
+      player.health += healAmount;
+      log(`💚 ${player.name} heals for ${healAmount} HP.`);
+      updateHealthBars();
+      setTimeout(enemyTurn, 1000);
+    });
+
+    updateHealthBars();
+    log("⚔️ Battle Start!");
+  </script>
+</body>
+</html>
