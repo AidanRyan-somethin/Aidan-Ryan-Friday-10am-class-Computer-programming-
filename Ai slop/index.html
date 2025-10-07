@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Turn-Based Game</title>
+</head>
+<body>
+  <h1>⚔️ Turn-Based Battle Game</h1>
+  <div id="game"></div>
+  <button id="attackBtn">Attack</button>
+  <button id="healBtn">Heal</button>
+
+  <script>
+    // Game state
+    const player = {
+      name: "Hero",
+      health: 100,
+      maxHealth: 100,
+      attack: 15,
+      healPower: 10
+    };
+
+    const enemy = {
+      name: "Goblin",
+      health: 100,
+      attack: 12
+    };
+
+    let gameOver = false;
+
+    const gameDiv = document.getElementById("game");
+    const attackBtn = document.getElementById("attackBtn");
+    const healBtn = document.getElementBy
