@@ -1,40 +1,52 @@
-let r=255;
-let g=255;
-let b=255;
+let amplitude = 150;
+let frequency = 0.05;
+let xPos = 0;
+let yPos = 0;
+let xPrev = 0;
+let yPrev;
+let offset;
+let amount;
+let r;
+let g;
+let b;
 
-function setup() {
-  createCanvas(600, 600);
-  rectMode (CENTER);
+function setup() 
+{
+	createCanvas(1000, 500);
+	strokeWeight(2);
+	fill(255, 255, 255, 50);
+	
+	offset = height/2;
+	yPrev = height/2;
 }
 
 function draw() 
-{
-  background(r,g,b);
- if (mouseX > width / 2)
- {
-  fill(255,0,0);
-  ellipse(width/2, height/2, 100, 100);
-  print("TEST 1 is TRUE");
- }
- else if (mouseY > height / 2)
- {
-  fill(0);
-  rect(width /2, height/2);
- }
- else if (mouseY > height /2)
- {
-  fill(0);
-  rect(width/2, height/2, 100, 100);
-  print("TEST 2 is True");
- }
- else 
- {
-  fill(255);
-  rect(width/2, height/2, 100, 100);
-  print("TEST1 and TEST 2 are Both FALSE")
- }
-}
+{	
+	r = map(xPos, 0, width, 50, 150);
+	g = map(xPos, 0, width, 0, 255);
+	b = map(xPos, 0, width, 255, 0);
+	
+	background(r, g, b, 5);
 
-function mousePressed () {
-
+	lerpAmount = map(constrain(mouseY, 0, height), 0, height, 0.1, 1.0);
+	
+  	yPos = amplitude * sin(xPos * frequency) + offset;
+	
+	yPos = lerp(yPrev, yPos, lerpAmount);
+	xPos = lerp(xPrev, xPos, lerpAmount);
+	
+	circle(xPos, yPos, 50);
+	
+	line(xPrev, yPrev, xPos, yPos);
+	
+	yPrev = yPos;
+	xPrev = xPos;
+	
+	xPos++;
+	
+	if (xPos > width)
+	{
+		xPos = 0;
+		xPrev = xPos;
+	}
 }
