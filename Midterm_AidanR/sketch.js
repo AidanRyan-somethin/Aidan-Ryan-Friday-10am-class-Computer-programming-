@@ -290,32 +290,31 @@ function keyPressed()
 
 
 
-function mousePressed() 
-{
+function mousePressed() {
   let randomIndex = randomNumberGenerator(0, sayings.length - 1);
   selectedSaying = sayings[randomIndex];
 
   // Control snow/fire 
-  if (selectedSaying === "Christmas is coming") 
-  {
+  if (selectedSaying === "Christmas is coming") {
     showSnow = true;
     showFire = false;
-  } 
-  else if (selectedSaying === "When hell freezes over") 
-  {
+  } else if (selectedSaying === "When hell freezes over") {
     showFire = true;
     showSnow = true;
-  } 
-  else 
-  {
+  } else {
     showFire = false;
     showSnow = false;
   }
+
+  // This starts space invaders
   if (selectedSaying === "SPACE INVADERS") 
   {
-  gameMode = "SpaceInvaders";
-  startSpaceInvaders();
+    gameMode = "SpaceInvaders";
+    startSpaceInvaders();
+    showInstructions = true;
   }
+
+  // return to Magic8Ball if you won
   if (gameMode === "SpaceInvaders" && gameWon) 
   {
     gameWon = false;
