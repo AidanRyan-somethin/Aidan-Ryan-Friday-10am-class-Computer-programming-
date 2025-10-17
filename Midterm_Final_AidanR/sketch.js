@@ -181,6 +181,7 @@ return;
   if (keyIsDown(LEFT_ARROW)) player.x -= 5;
   if (keyIsDown(RIGHT_ARROW)) player.x += 5;
   player.x = constrain(player.x, 0, width);
+  //Constrains a number between a minimum and maximum value (making it so the player dosent go through the edge)
 
 
   // Draw player
@@ -275,7 +276,14 @@ function keyPressed()
 
     if (showInstructions) showInstructions =false;
 //turns off the unstructions
-    
+      
+  // Press 'r' to restart Space Invaders
+  if (gameMode === "SpaceInvaders" && key === "r") {
+    startSpaceInvaders();
+    gameWon = false; //this basically just sets everything back to the beggining
+    showInstructions = true;
+  }
+
 }
  
 
