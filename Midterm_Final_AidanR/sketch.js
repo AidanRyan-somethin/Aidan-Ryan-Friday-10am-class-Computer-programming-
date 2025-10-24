@@ -181,7 +181,7 @@ return;
   if (keyIsDown(LEFT_ARROW)) player.x -= 5;
   if (keyIsDown(RIGHT_ARROW)) player.x += 5;
   player.x = constrain(player.x, 0, width);
-
+  //Constrains a number between a minimum and maximum value (making it so the player dosent go through the edge)
 
   // Draw player
   fill(0, 255, 0);
@@ -276,6 +276,13 @@ function keyPressed()
     if (showInstructions) showInstructions =false;
 //turns off the unstructions
     
+   // Press 'r' to restart Space Invaders
+  if (gameMode === "SpaceInvaders" && key === "r") {
+    startSpaceInvaders();
+    gameWon = false; //this basically just sets everything back to the beggining
+    showInstructions = true;
+  }
+
 }
  
 
@@ -283,32 +290,31 @@ function keyPressed()
 
 
 
-function mousePressed() 
-{
+function mousePressed() {
   let randomIndex = randomNumberGenerator(0, sayings.length - 1);
   selectedSaying = sayings[randomIndex];
 
   // Control snow/fire 
-  if (selectedSaying === "Christmas is coming") 
-  {
+  if (selectedSaying === "Christmas is coming") {
     showSnow = true;
     showFire = false;
-  } 
-  else if (selectedSaying === "When hell freezes over") 
-  {
+  } else if (selectedSaying === "When hell freezes over") {
     showFire = true;
     showSnow = true;
-  } 
-  else 
-  {
+  } else {
     showFire = false;
     showSnow = false;
   }
+
+  // This starts space invaders
   if (selectedSaying === "SPACE INVADERS") 
   {
-  gameMode = "SpaceInvaders";
-  startSpaceInvaders();
+    gameMode = "SpaceInvaders";
+    startSpaceInvaders();
+    showInstructions = true;
   }
+
+  // return to Magic8Ball if you won
   if (gameMode === "SpaceInvaders" && gameWon) 
   {
     gameWon = false;
