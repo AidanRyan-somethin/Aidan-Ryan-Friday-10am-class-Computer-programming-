@@ -1,16 +1,26 @@
-function setup() 
-{
-  createCanvas(400, 400);
-  RectMode (CENTER);
-}
-
-let spacing = 5
-function draw() 
-{
-  background (200);
+ function setup() 
+ {
+   createCanvas(750, 200);
+ }
  
-  for(let i= width; i >= 0; i -=50)
-  {
-    rect(width/2, height/2, i, i):
-  }
-}
+ function draw() 
+ {
+   let diameter = 30;
+   let radius = 15;
+   
+   background(32);
+ 
+   for (let i = 0; i <= width; i += diameter) 
+   {
+     //if mouse position is within radius of circle
+     if (mouseX > i - radius && mouseX < i + radius && mouseY > height / 2 - radius && mouseY < height / 2 + radius) 
+     {
+       fill(30, 200, 200); //fill blue
+     } 
+     else 
+     {
+       fill(255);	//fill white
+     }
+     ellipse(i, height / 2, diameter, diameter);
+   }
+ }
