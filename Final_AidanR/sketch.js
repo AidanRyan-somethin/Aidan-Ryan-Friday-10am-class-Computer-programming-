@@ -44,8 +44,8 @@ function preload()
   shootSound = loadSound("shoot.wav");
   bgMusicSP = loadSound("Space Invaders Background Music.mp3");
 
-  spaceInvadersTitleImg = loadImage("space_invaders_title.png");
-  spaceInvadersPressImg = loadImage("space_invaders_press_start.png");
+  spaceInvadersTitleImg = loadImage("Space Invaders Logo.png");
+  spaceInvadersPressImg = loadImage("Space invaders start logo.png");
 }
 
 
@@ -192,15 +192,21 @@ vertex(830, 260);
 vertex(790, 300);  
 endShape(CLOSE);
 
+//Buttons___________________________________________________________________________________________________________
+noStroke();
+fill(200,40,40);
+ellipse(600,705,20,10);
 
+fill(40,40,200);
+ellipse(640,705,20,10);
 
+noStroke();
+fill(200,40,40);
+ellipse(400,705,20,10);
 
- beginShape(); 
-vertex(150, 730);  // left bottom
-vertex(185, 680);  // left top
-vertex(790, 680);  // right top
-vertex(830, 730);  // right bottom
-endShape(CLOSE);
+fill(40,40,200);
+ellipse(360,705,20,10);
+
 
 
  // UPPER PART ______________________________________________________
@@ -259,6 +265,13 @@ let bottom = 680 - 10;
 
 rect(left, top, right - left, bottom - top);
 
+// Screen outline (dark red)
+noFill();
+stroke(120, 0, 0);   // dark red
+strokeWeight(16);
+rect(left, top, right - left, bottom - top);
+
+
 rectMode(CENTER);
 
 //Text for coin stuff and getting started ________________________________________________
@@ -268,6 +281,7 @@ if (!coinInserted)
   textAlign(CENTER, CENTER);
 
   textSize(40);
+  strokeWeight(5);
   text("Insert a coin", width/2, 460);
 
   textSize(20);
@@ -317,20 +331,8 @@ if (frameCount % 60 < 30)
 // High score under Space Invaders box
 textSize(16);
 text("High Score: " + highscore_SpaceInvaders, x1 + w/2, y1 + h + 20);
-  
 
-
-  noFill();
-stroke(0);
-strokeWeight(5);
-
-beginShape();
-vertex(150,1000);
-vertex(150,260);
-vertex(830,260);
-vertex(830,1000);
-endShape();
-  }
+}
 }
 
 
@@ -742,6 +744,25 @@ for (let shield of shields)  //drawn here
 }
 
 
+// Player bullets hit shields (punishment)
+for (let b of bullets) {
+  for (let shield of shields) {
+    for (let tile of shield) {
+      if 
+      (
+      tile.alive &&
+     b.x < tile.x + 12 &&
+     b.x + 5 > tile.x &&
+     b.y < tile.y + 12 &&
+    b.y + 10 > tile.y
+     )
+     {
+        tile.alive = false;   // destroy shield tile
+        b.y = -10;            // remove bullet
+      }
+    }
+  }
+}
 
 
 
@@ -824,13 +845,15 @@ if (lives <= 0)
 for (let eb of enemyBullets) {
   for (let shield of shields) { 
     for (let tile of shield) {
-      if (
-        tile.alive && //enemy bullets destroy them here, basically just che cking if bullet overlaps in the boxes
-        eb.x > tile.x &&
-        eb.x < tile.x + 12 &&
-        eb.y > tile.y &&
-        eb.y < tile.y + 12
-      ) {
+      if 
+      (
+      tile.alive &&
+      eb.x < tile.x + 12 &&
+      eb.x + 5 > tile.x &&
+      eb.y < tile.y + 12 &&
+      eb.y + 10 > tile.y
+      ) 
+      {
         tile.alive = false;
         eb.y = height + 10; // remove bullet
       }
@@ -863,6 +886,17 @@ coinInserted = true;  // keep selection visible
 if (bgMusicSP) bgMusicSP.stop();
 
 return;
+
+
+
+
+
+
+
+
+
+
+
 
 }
 
@@ -1077,4 +1111,3 @@ function keyPressed()
     }
   }
 }
-
