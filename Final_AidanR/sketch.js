@@ -318,8 +318,8 @@ if (spaceInvadersPressImg)
     170
   );
 }
-
-if (frameCount % 60 < 30) 
+//https://editor.p5js.org/kjhollen/sketches/H2RZMer3x___________________________________________________
+if (frameCount % 60 < 30)//modulo to make arcade blinking effect 
 {
   fill(255);
   textSize(18);
